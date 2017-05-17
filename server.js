@@ -66,6 +66,14 @@ io.on('connection', function (socket) {
         socket.broadcast.emit('move', data);
     });
     
+
+    socket.on('rotate',function(data){
+        data.id = thisPlayerId;
+        console.log('client rotated',JSON.stringify(data));
+        socket.broadcast.emit('rotate',data);
+    });
+
+
     socket.on('send', function(data){
         data.id = thisPlayerId;
 
