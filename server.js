@@ -62,18 +62,36 @@ io.on('connection', function (socket) {
         data.y = data.d.y;
         
         delete data.d;
-        
+
+
+        for (i = 0; i < players.length; i++) {
+             var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[i].lat,players[i].lan);
+             if(distance < 100)
+             {
+                console.log("affichi les players");
+             }
+        }
+        //var distance =  distanceInKmBetweenEarthCoordinates(player.lat,player.lan,0,0);
+        //console.log(distance);
+        //players[thisPlayerId].lat
+        console.log('localisation : ', JSON.stringify(players[thisPlayerId].lat));
         socket.broadcast.emit('move', data);
     });
-    
+
+    socket.on('localisation',function(data){
+        data.id = thisPlayerId;
+        player.lat = data.x;
+        player.lan = data.y;
+        //console.log('localisation : ', JSON.stringify(data));
+    });
+
 
     socket.on('rotate',function(data){
         data.id = thisPlayerId;
         console.log('client rotated',JSON.stringify(data));
         socket.broadcast.emit('rotate',data);
     });
-
-
+    
     socket.on('send', function(data){
         data.id = thisPlayerId;
 
@@ -118,4 +136,24 @@ function lineDistance(vectorA, vectorB) {
     ys = ys * ys;
     
     return Math.sqrt(xs + ys);
+}
+
+
+function degreesToRadians(degrees) {
+  return degrees * Math.PI / 180;
+}
+
+function distanceInKmBetweenEarthCoordinates(lat1, lon1, lat2, lon2) {
+  var earthRadiusKm = 6371;
+
+  var dLat = degreesToRadians(lat2-lat1);
+  var dLon = degreesToRadians(lon2-lon1);
+
+  lat1 = degreesToRadians(lat1);
+  lat2 = degreesToRadians(lat2);
+
+  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  return earthRadiusKm * c;
 }
