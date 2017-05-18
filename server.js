@@ -41,7 +41,7 @@ io.on('connection', function (socket) {
     
     socket.on('move', function (data) {
         data.id = thisPlayerId;
-        console.log('client moved', JSON.stringify(data));
+        //console.log('client moved', JSON.stringify(data));
         
         player.destination.x = data.d.x;
         player.destination.y = data.d.y;
@@ -66,6 +66,7 @@ io.on('connection', function (socket) {
 
         for (i = 0; i < players.length; i++) {
              var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[i].lat,players[i].lan);
+             console.log(distance);
              if(distance < 100)
              {
                 console.log("affichi les players");
@@ -88,7 +89,7 @@ io.on('connection', function (socket) {
 
     socket.on('rotate',function(data){
         data.id = thisPlayerId;
-        console.log('client rotated',JSON.stringify(data));
+        //console.log('client rotated',JSON.stringify(data));
         socket.broadcast.emit('rotate',data);
     });
     
