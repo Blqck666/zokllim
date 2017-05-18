@@ -22,7 +22,9 @@ io.on('connection', function (socket) {
             x:0,
             y:0
         },
-        lastMoveTime : 0
+        lastMoveTime : 0,
+        lat : 0,
+        lan : 0
     };
     players[thisPlayerId] = player;
     
@@ -41,7 +43,7 @@ io.on('connection', function (socket) {
     
     socket.on('move', function (data) {
         data.id = thisPlayerId;
-        //console.log('client moved', JSON.stringify(data));
+        console.log('client moved', JSON.stringify(data));
         
         player.destination.x = data.d.x;
         player.destination.y = data.d.y;
@@ -63,15 +65,19 @@ io.on('connection', function (socket) {
         
         delete data.d;
 
-
-        for (i = 0; i < players.length; i++) {
-             var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[i].lat,players[i].lan);
+        for(var play in players){
+            console.log(play);
+            var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[play].lat,players[play].lan);
              console.log(distance);
              if(distance < 100)
              {
                 console.log("affichi les players");
              }
-        }
+        };
+
+        
+
+        
         //var distance =  distanceInKmBetweenEarthCoordinates(player.lat,player.lan,0,0);
         //console.log(distance);
         //players[thisPlayerId].lat
@@ -89,7 +95,7 @@ io.on('connection', function (socket) {
 
     socket.on('rotate',function(data){
         data.id = thisPlayerId;
-        //console.log('client rotated',JSON.stringify(data));
+        console.log('client rotated',JSON.stringify(data));
         socket.broadcast.emit('rotate',data);
     });
     
