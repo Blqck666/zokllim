@@ -97,6 +97,7 @@ io.on('connection', function (socket) {
         data.id = thisPlayerId;
         data.y = data.rot.y;
         data.w = data.rot.w;
+        delete data.rot;
         console.log('client rotated',JSON.stringify(data));
         socket.broadcast.emit('rotate',data);
     });
