@@ -30,9 +30,16 @@ io.on('connection', function (socket) {
     
     console.log("client connected, id = ", thisPlayerId);
    
-   socket.emit('register', {id:thisPlayerId});
+    for(var playerId in players){
+        if(playerId == thisPlayerId)
+            continue;
+        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[play].lat,players[play].lan);
+        else if (distance<20)
+            socket.emit('register', {id:thisPlayerId});
     socket.broadcast.emit('spawn', {id:thisPlayerId});
     socket.broadcast.emit('requestPosition');
+   
+   }
     
     for(var playerId in players){
         if(playerId == thisPlayerId)
@@ -68,10 +75,11 @@ io.on('connection', function (socket) {
         for(var play in players){
             console.log(play);
             var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[play].lat,players[play].lan);
-             console.log(distance);
-             if(distance < 100)
+             console.log(distance +' KM');
+             if(distance < 20)
              {
-                console.log("affichi les players");
+                
+                socket.broadcast.emit('move', data);
              }
         };
 
@@ -82,7 +90,7 @@ io.on('connection', function (socket) {
         //console.log(distance);
         //players[thisPlayerId].lat
         console.log('localisation : ', JSON.stringify(players[thisPlayerId].lat));
-        socket.broadcast.emit('move', data);
+        
     });
 
     socket.on('localisation',function(data){
