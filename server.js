@@ -32,6 +32,10 @@ io.on('connection', function (socket) {
    
     for(var playerId in players){
         if(playerId == thisPlayerId){
+            socket.emit('register', {id:thisPlayerId});
+        
+            socket.broadcast.emit('spawn', {id:thisPlayerId});
+            socket.broadcast.emit('requestPosition');
             continue;
         }
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[play].lat,players[play].lan);
