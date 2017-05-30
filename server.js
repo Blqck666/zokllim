@@ -36,9 +36,9 @@ io.on('connection', function (socket) {
         
             socket.broadcast.emit('spawn', {id:thisPlayerId});
             socket.broadcast.emit('requestPosition');
-            continue;
+            
         }
-        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[play].lat,players[play].lan);
+        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
         if (distance<20){
             socket.emit('register', {id:thisPlayerId});
         
