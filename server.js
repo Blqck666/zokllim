@@ -31,14 +31,16 @@ io.on('connection', function (socket) {
     console.log("client connected, id = ", thisPlayerId);
    
     for(var playerId in players){
-        if(playerId == thisPlayerId)
+        if(playerId == thisPlayerId){
             continue;
+        }
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[play].lat,players[play].lan);
-        else if (distance<20)
+        if (distance<20){
             socket.emit('register', {id:thisPlayerId});
+        
     socket.broadcast.emit('spawn', {id:thisPlayerId});
     socket.broadcast.emit('requestPosition');
-   
+   }
    }
     
     for(var playerId in players){
