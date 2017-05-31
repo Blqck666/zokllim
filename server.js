@@ -29,29 +29,25 @@ io.on('connection', function (socket) {
     players[thisPlayerId] = player;
     
     console.log("client connected, id = ", thisPlayerId);
+        socket.emit('register', {id:thisPlayerId});
+        socket.broadcast.emit('spawn', {id:thisPlayerId});
+        socket.broadcast.emit('requestPosition');
    
     for(var playerId in players){
         if(playerId == thisPlayerId){
-            socket.emit('register', {id:thisPlayerId});
-        
-            socket.broadcast.emit('spawn', {id:thisPlayerId});
-            socket.broadcast.emit('requestPosition');
-            
+             continue;
         }
+        
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
         if (distance<20){
-            socket.emit('register', {id:thisPlayerId});
+           
         
-    socket.broadcast.emit('spawn', {id:thisPlayerId});
-    socket.broadcast.emit('requestPosition');
-   }
-   }
+            socket.emit('spawn', players[playerId]);
     
-    for(var playerId in players){
-        if(playerId == thisPlayerId)
-            continue;
-        socket.emit('spawn', players[playerId]);
-    };
+        }
+   };
+    
+   
     
     
     socket.on('move', function (data) {
