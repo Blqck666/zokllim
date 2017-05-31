@@ -30,7 +30,7 @@ io.on('connection', function (socket) {
     
     console.log("client connected, id = ", thisPlayerId);
         socket.emit('register', {id:thisPlayerId});
-        socket.broadcast.emit('spawn', {id:thisPlayerId});
+        //socket.broadcast.emit('spawn', {id:thisPlayerId});
         socket.broadcast.emit('requestPosition');
    
     for(var playerId in players){
@@ -39,9 +39,10 @@ io.on('connection', function (socket) {
         }
         
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
+       console.log(distance);
         if (distance<20){
            
-        
+            console.log(distance +' KMM');
             socket.emit('spawn', players[playerId]);
     
         }
@@ -80,8 +81,7 @@ io.on('connection', function (socket) {
              console.log(distance +' KM');
              if(distance < 20)
              {
-                
-                socket.broadcast.emit('move', data);
+                    socket.broadcast.emit('move', data);
              }
         };
 
@@ -91,7 +91,7 @@ io.on('connection', function (socket) {
         //var distance =  distanceInKmBetweenEarthCoordinates(player.lat,player.lan,0,0);
         //console.log(distance);
         //players[thisPlayerId].lat
-        console.log('localisation : ', JSON.stringify(players[thisPlayerId].lat));
+        //console.log('localisation : ', JSON.stringify(players[thisPlayerId].lat));
         
     });
 
