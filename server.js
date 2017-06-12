@@ -33,7 +33,7 @@ io.on('connection', function (socket) {
     console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
         //socket.broadcast.emit('spawn', {id:thisPlayerId});
-        socket.broadcast.emit('requestPosition');
+        
    
     for(var playerId in players){
         if(playerId == thisPlayerId){
@@ -46,6 +46,7 @@ io.on('connection', function (socket) {
            
             //console.log(distance +' KMM');
             socket.emit('spawn', players[playerId]);
+            socket.broadcast.emit('requestPosition');
     
         }
    };
