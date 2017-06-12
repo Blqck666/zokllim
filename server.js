@@ -32,7 +32,7 @@ io.on('connection', function (socket) {
     
     console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
-        socket.broadcast.emit('spawn', {id:thisPlayerId});
+        //socket.broadcast.emit('spawn', {id:thisPlayerId});
         socket.broadcast.emit('requestPosition');
    
     for(var playerId in players){
