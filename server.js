@@ -13,6 +13,7 @@ io.on('connection', function (socket) {
     
     var thisPlayerId = shortId.generate();
     var player = {
+        sockid:socket.id,
         id:thisPlayerId,
         destination:{
         x:0,
@@ -24,13 +25,14 @@ io.on('connection', function (socket) {
         },
         lastMoveTime : 0,
         lat : 0,
-        lan : 0
+        lan : 0,
+        name : ""
     };
     players[thisPlayerId] = player;
     
-    console.log("client connected, id = ", thisPlayerId);
+    console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
-        //socket.broadcast.emit('spawn', {id:thisPlayerId});
+        socket.broadcast.emit('spawn', {id:thisPlayerId});
         socket.broadcast.emit('requestPosition');
    
     for(var playerId in players){
@@ -42,7 +44,7 @@ io.on('connection', function (socket) {
        console.log(distance);
         if (distance<20){
            
-            console.log(distance +' KMM');
+            //console.log(distance +' KMM');
             socket.emit('spawn', players[playerId]);
     
         }
@@ -53,7 +55,7 @@ io.on('connection', function (socket) {
     
     socket.on('move', function (data) {
         data.id = thisPlayerId;
-        console.log('client moved', JSON.stringify(data));
+        //console.log('client moved', JSON.stringify(data));
         
         player.destination.x = data.d.x;
         player.destination.y = data.d.y;
@@ -108,16 +110,18 @@ io.on('connection', function (socket) {
         data.y = data.rot.y;
         data.w = data.rot.w;
         delete data.rot;
-        console.log('client rotated',JSON.stringify(data));
+        //console.log('client rotated',JSON.stringify(data));
         socket.broadcast.emit('rotate',data);
     });
     
     socket.on('send', function(data){
         data.id = thisPlayerId;
 
-        console.log('the player ' + data.id + 'Has Send this msg : ' + JSON.stringify(data.msg));
+        console.log('the player ' + data.id + 'Has Send this msg : ' + JSON.stringify(data.msg) + " To This Player : " + data.rec + "with id = : "+data.rec.sockid);
         data.msg = data.msg;
-        socket.broadcast.emit('send',data);
+        data.rec = data.rec;
+        io.to(players[data.rec].sockid).emit('send', data);
+        //socket.broadcast.emit('send',data);
     });
 
      socket.on('follow', function (data) {
