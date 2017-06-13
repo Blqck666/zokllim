@@ -39,6 +39,21 @@ io.on('connection', function (socket) {
         //lazem kif lplayer yconnecti w yo9res 3la location ya3mel verification w yab3eth spawn ll player jdid
         //hathi lazem twali automatique y7el lapp yestana 1 sec yconnecti m3aha location
    
+    for(var playerId in players){
+        if(playerId == thisPlayerId){
+             continue;
+        }
+        
+        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
+       console.log(distance +' spawn function');
+        if (distance<20){
+           console.log(distance);
+            //console.log(distance +' KMM');
+            socket.emit('spawn', players[playerId]);
+            socket.broadcast.emit('requestPosition');
+    
+        }
+   };
     
    
     
@@ -96,24 +111,6 @@ for(var playerId in players){
         data.id = thisPlayerId;
         player.lat = data.x;
         player.lan = data.y;
-
-        for(var playerId in players){
-        if(playerId == thisPlayerId){
-             continue;
-        }
-        
-        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
-       console.log(distance +' spawn function');
-        if (distance<20){
-           console.log(distance);
-            //console.log(distance +' KMM');
-            socket.broadcast.emit('spawn', {id:thisPlayerId});
-            socket.emit('spawn', players[playerId]);
-            socket.broadcast.emit('requestPosition');
-    
-        }
-   };
-    
         //console.log('localisation : ', JSON.stringify(data));
     });
 
