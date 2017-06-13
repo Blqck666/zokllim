@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
         if (distance<20){
            
             //console.log(distance +' KMM');
-            socket.emit('spawn', players[thisPlayerId]);
+            socket.emit('spawn', players[playerId]);
             socket.broadcast.emit('requestPosition');
     
         }
