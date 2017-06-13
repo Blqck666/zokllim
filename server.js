@@ -93,7 +93,7 @@ for(var playerId in players){
         
     });
 
-    socket.on('localisation',function(data){
+    socket.on('initloc',function(data){
         data.id = thisPlayerId;
         player.lat = data.x;
         player.lan = data.y;
@@ -113,6 +113,14 @@ for(var playerId in players){
     
         }
    };
+        console.log('localisation : ', JSON.stringify(data));
+    });
+
+socket.on('localisation',function(data){
+        data.id = thisPlayerId;
+        player.lat = data.x;
+        player.lan = data.y;
+        
         console.log('localisation : ', JSON.stringify(data));
     });
 
