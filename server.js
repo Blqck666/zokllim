@@ -72,8 +72,7 @@ for(var playerId in players){
         if(playerId == thisPlayerId){
              continue;
         }
-            console.log(playerId);
-            console.log(thisPlayerId);
+            
             var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
              
              if(distance < 20)
@@ -97,23 +96,29 @@ for(var playerId in players){
         data.id = thisPlayerId;
         player.lat = data.x;
         player.lan = data.y;
-        for(var playerId in players){
-        if(playerId == thisPlayerId){
-             continue;
-        }
-        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         
+        for(var playerId in players){
+            console.log(playerId);
+        if(playerId == thisPlayerId){
+            console.log("sdighsdkghskdjgskdjfgksdjgfkjsdgfkjsdgfksjdgfksjdgfkjsdgfkjsdgfk");
+             
+        }else{
+            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            socket.broadcast.emit('spawn', {id:thisPlayerId});
+        
+        socket.emit('spawn', players[playerId]);
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
        console.log(distance +' spawn function');
-        if (distance<20){
+        //if (distance<20){
           // console.log(distance);
             //console.log(distance +' KMM');
-            socket.emit('spawn', players[playerId]);
+
+            
             socket.broadcast.emit('requestPosition');
-    
-        }
+    }
+       // }
    };
-        console.log('localisation : ', JSON.stringify(data));
+        console.log('INIT : ');
     });
 
 socket.on('localisation',function(data){
