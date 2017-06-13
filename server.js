@@ -107,6 +107,7 @@ for(var playerId in players){
         if (distance<20){
            console.log(distance);
             //console.log(distance +' KMM');
+            socket.broadcast.emit('spawn', {id:thisPlayerId});
             socket.emit('spawn', players[playerId]);
             socket.broadcast.emit('requestPosition');
     
