@@ -43,7 +43,8 @@ io.on('connection', function (socket) {
         if(playerId == thisPlayerId){
              continue;
         }
-        
+        console.log(players[thisPlayerId].lat);
+        console.log(players[playerId].lat);
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
        console.log(distance +' spawn function');
         if (distance<20){
