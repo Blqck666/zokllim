@@ -34,22 +34,11 @@ io.on('connection', function (socket) {
         socket.emit('register', {id:thisPlayerId});
         //socket.broadcast.emit('spawn', {id:thisPlayerId});
         
+
+        //hathi tab3eth marra kahw wa9ti player yconnecti
+        //lazem kif lplayer yconnecti w yo9res 3la location ya3mel verification w yab3eth spawn ll player jdid
+        //hathi lazem twali automatique y7el lapp yestana 1 sec yconnecti m3aha location
    
-    for(var playerId in players){
-        if(playerId == thisPlayerId){
-             continue;
-        }
-        
-        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
-       console.log(distance);
-        if (distance<20){
-           
-            //console.log(distance +' KMM');
-            socket.emit('spawn', players[playerId]);
-            socket.broadcast.emit('requestPosition');
-    
-        }
-   };
     
    
     
@@ -78,12 +67,17 @@ io.on('connection', function (socket) {
         
         delete data.d;
 
-        for(var play in players){
-            console.log(play);
-            var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[play].lat,players[play].lan);
-             console.log(distance +' KM');
+for(var playerId in players){
+        if(playerId == thisPlayerId){
+             continue;
+        }
+            console.log(playerId);
+            console.log(thisPlayerId);
+            var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
+             
              if(distance < 20)
              {
+                console.log(distance +' MOVE function');
                     socket.broadcast.emit('move', data);
              }
         };
@@ -102,6 +96,23 @@ io.on('connection', function (socket) {
         data.id = thisPlayerId;
         player.lat = data.x;
         player.lan = data.y;
+
+        for(var playerId in players){
+        if(playerId == thisPlayerId){
+             continue;
+        }
+        
+        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
+       console.log(distance +' spawn function');
+        if (distance<20){
+           console.log(distance);
+            //console.log(distance +' KMM');
+            socket.emit('spawn', players[playerId]);
+            socket.broadcast.emit('requestPosition');
+    
+        }
+   };
+    
         //console.log('localisation : ', JSON.stringify(data));
     });
 
