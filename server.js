@@ -3,11 +3,29 @@ var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var io = require('socket.io')(port);
 var shortId = require('shortid');
 
+
+
 var players = [];
 
 var playerSpeed = 3;
 
 console.log("server started on port " + port);
+
+console.log('1');
+// Connect to server
+var ss = require('socket.io-client');
+var sockets = ss.connect('http://localhost:3001', {reconnect: true});
+
+console.log('2');
+
+// Add a connect listener
+sockets.on('connect', function(socket) { 
+  console.log('Connected!');
+  
+});
+
+console.log('3');
+
 
 io.on('connection', function (socket) {
     
@@ -29,11 +47,16 @@ io.on('connection', function (socket) {
         name : ""
     };
     players[thisPlayerId] = player;
-    
+    sockets.emit("userS", {
+  somethingToSendToBrowser: "Hello",
+  arrayToSendToBrowser: player
+});
     console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
         //socket.broadcast.emit('spawn', {id:thisPlayerId});
-        console.log(players[thisPlayerId].lat);
+        console.log(players);
+
+    
 
         //hathi tab3eth marra kahw wa9ti player yconnecti
         //lazem kif lplayer yconnecti w yo9res 3la location ya3mel verification w yab3eth spawn ll player jdid
@@ -75,11 +98,11 @@ for(var playerId in players){
             
             var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
              
-             if(distance < 20)
-             {
+            // if(distance < 20)
+             //{
               //  console.log(distance +' MOVE function');
                     socket.broadcast.emit('move', data);
-             }
+             //}
         };
 
         
@@ -109,13 +132,13 @@ for(var playerId in players){
         
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
        console.log(distance +' spawn function');
-        if (distance<20){
+      //  if (distance<20){
           // console.log(distance);
             //console.log(distance +' KMM');
 socket.broadcast.emit('spawn', {id:thisPlayerId});
             socket.emit('spawn', players[playerId]);
             socket.broadcast.emit('requestPosition');
-    }
+    //}
         }
    };
         console.log('INIT : ');
@@ -126,7 +149,7 @@ socket.on('localisation',function(data){
         player.lat = data.x;
         player.lan = data.y;
         
-        console.log('localisation : ', JSON.stringify(data));
+        //console.log('localisation : ', JSON.stringify(data));
     });
 
 
@@ -142,8 +165,9 @@ socket.on('localisation',function(data){
     socket.on('send', function(data){
         data.id = thisPlayerId;
 
-        console.log('the player ' + data.id + 'Has Send this msg : ' + JSON.stringify(data.msg) + " To This Player : " + data.rec + "with id = : "+data.rec.sockid);
+        console.log('the player ' + data.id + 'Has Send this msg : ' + JSON.stringify(data.msg) + " To This Player : " + data.rec + "with id = : "+players[data.rec].sockid);
         data.msg = data.msg;
+        data.id = data.id;
         data.rec = data.rec;
         io.to(players[data.rec].sockid).emit('send', data);
         //socket.broadcast.emit('send',data);
