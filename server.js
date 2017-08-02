@@ -12,18 +12,7 @@ var playerSpeed = 3;
 
 console.log("server started on port " + port);
 
-console.log('1');
-// Connect to server
-var ss = require('socket.io-client');
-var sockets = ss.connect('http://localhost:3001', {reconnect: true});
 
-console.log('2');
-
-// Add a connect listener
-sockets.on('connect', function(socket) { 
-  console.log('Connected!');
-  
-});
 
 console.log('3');
 
@@ -51,10 +40,6 @@ io.on('connection', function (socket) {
  
 
 
-    sockets.emit("userS", {
-  somethingToSendToBrowser: "Hello",
-  arrayToSendToBrowser: player
-});
  
     console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
