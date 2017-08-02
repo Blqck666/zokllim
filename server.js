@@ -2,7 +2,8 @@ var port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var io = require('socket.io')(port);
 var shortId = require('shortid');
-const MongoClient = require('mongodb').MongoClient;
+
+
 
 
 var players = [];
@@ -68,37 +69,7 @@ io.on('connection', function (socket) {
    
     
     
-   socket.on('login', function(data)
-    {
-        console.log(data.id);
-            MongoClient.connect('mongodb://pokemap:fucksatan001@ds032887.mlab.com:32887/pokemap', function(err, db) 
-            {
-                if (err) throw err;
-                    var idd = data.id;
-
-                var myobj = { id: data.id, username: data.name , email: data.email };
-                    db.collection("user").findOne({id:idd}).then(function(doc) 
-                    {
-                        if(!doc)
-                        {
-                                db.collection("user").insertOne(myobj, function(err, res) 
-                                {
-                                        if (err) throw err;
-                                        console.log("1 record inserted");
-                                });  
-                        }
-            
-                        socket.emit('success',doc);
-                        console.log(doc);
-                    });
-            
-                    
-   
-             });
-
-       
-        //socket.broadcast.emit('send',data);
-    });
+  
     
     
     socket.on('move', function (data) {
