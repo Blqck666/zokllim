@@ -47,10 +47,14 @@ io.on('connection', function (socket) {
         name : ""
     };
     players[thisPlayerId] = player;
+ 
+
+
     sockets.emit("userS", {
   somethingToSendToBrowser: "Hello",
   arrayToSendToBrowser: player
 });
+ 
     console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
         //socket.broadcast.emit('spawn', {id:thisPlayerId});
@@ -99,7 +103,7 @@ io.on('connection', function (socket) {
     
     socket.on('move', function (data) {
         data.id = thisPlayerId;
-        //console.log('client moved', JSON.stringify(data));
+        console.log('client moved', JSON.stringify(data));
         
         player.destination.x = data.d.x;
         player.destination.y = data.d.y;
