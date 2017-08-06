@@ -59,7 +59,7 @@ io.on('connection', function (socket) {
     
     socket.on('move', function (data) {
         data.id = thisPlayerId;
-        console.log('client moved', JSON.stringify(data));
+        //console.log('client moved', JSON.stringify(data));
         
         player.destination.x = data.d.x;
         player.destination.y = data.d.y;
@@ -133,6 +133,13 @@ socket.broadcast.emit('spawn', {id:thisPlayerId});
    };
         console.log('INIT : ');
     });
+
+
+
+
+
+
+
 
 socket.on('localisation',function(data){
         data.id = thisPlayerId;
