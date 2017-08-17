@@ -114,7 +114,7 @@ for(var playerId in players){
             console.log(playerId);
         if(playerId == thisPlayerId){
             console.log("sdighsdkghskdjgskdjfgksdjgfkjsdgfkjsdgfksjdgfksjdgfkjsdgfkjsdgfk");
-             
+             continue;
         }else{
             console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             
