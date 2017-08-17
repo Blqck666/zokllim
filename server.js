@@ -122,7 +122,7 @@ for(var playerId in players){
         
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
        console.log(distance +' spawn function');
-        if (distance<20){
+        if (distance<1){
           // console.log(distance);
             //console.log(distance +' KMM');
 socket.broadcast.emit('spawn', {id:thisPlayerId});
