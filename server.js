@@ -126,7 +126,7 @@ for(var playerId in players){
           // console.log(distance);
             console.log(distance +' KMM');
 socket.broadcast.emit('spawn', {id:thisPlayerId});
-            socket.emit('spawn', players[playerId]);
+            //socket.emit('spawn', players[playerId]);
             socket.broadcast.emit('requestPosition');
     }
         }
