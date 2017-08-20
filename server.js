@@ -43,15 +43,20 @@ io.on('connection', function (socket) {
  
     console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
+
             socket.broadcast.emit('spawn', {id:thisPlayerId});
     socket.broadcast.emit('requestPosition');
         //socket.broadcast.emit('spawn', {id:thisPlayerId});
         console.log(players);
 
      for(var playerId in players){
-        if(playerId == thisPlayerId)
+        if(playerId == thisPlayerId){
             continue;
-        socket.emit('spawn', players[playerId]);
+        }
+        else{
+            socket.emit('spawn', players[playerId]);
+        }
+        
     };
 
         //hathi tab3eth marra kahw wa9ti player yconnecti
