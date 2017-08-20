@@ -44,7 +44,7 @@ io.on('connection', function (socket) {
     console.log("client connected, id = ", socket.id);
         socket.emit('register', {id:thisPlayerId});
 
-            socket.broadcast.emit('spawn', {id:thisPlayerId});
+ /*           socket.broadcast.emit('spawn', {id:thisPlayerId});
     socket.broadcast.emit('requestPosition');
         //socket.broadcast.emit('spawn', {id:thisPlayerId});
         console.log(players);
@@ -57,7 +57,7 @@ io.on('connection', function (socket) {
             socket.emit('spawn', players[playerId]);
         }
         
-    };
+    };*/
 
         //hathi tab3eth marra kahw wa9ti player yconnecti
         //lazem kif lplayer yconnecti w yo9res 3la location ya3mel verification w yab3eth spawn ll player jdid
@@ -121,7 +121,7 @@ for(var playerId in players){
         player.lat = data.x;
         player.lan = data.y;
         
-      /*  for(var playerId in players){
+        for(var playerId in players){
             console.log(playerId);
         if(playerId == thisPlayerId){
             console.log("sdighsdkghskdjgskdjfgksdjgfkjsdgfkjsdgfksjdgfksjdgfkjsdgfkjsdgfk");
@@ -136,12 +136,18 @@ for(var playerId in players){
         if (distance<10){
           // console.log(distance);
             console.log(distance +' KMM');
-socket.broadcast.emit('spawn', {id:thisPlayerId});
-            //socket.emit('spawn', players[playerId]);
+            socket.broadcast.emit('spawn', {id:thisPlayerId});
             socket.broadcast.emit('requestPosition');
+
+
+            for(var playerIdd in players){
+                if(playerIdd == thisPlayerId)
+                    continue;
+                socket.emit('spawn', players[playerIdd]);
+    };
     }
         }
-   };*/
+   };
         console.log('INIT : ');
     });
 
