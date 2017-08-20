@@ -111,34 +111,52 @@ for(var playerId in players){
         
     });
 
-    socket.on('initloc',function(data){
+    socket.on('initloc',function(data)
+    {
         data.id = thisPlayerId;
         player.lat = data.x;
         player.lan = data.y;
         
-        for(var playerId in players){
+        for(var playerId in players)
+        {
             console.log(playerId);
-        if(playerId == thisPlayerId){
-            console.log("sdighsdkghskdjgskdjfgksdjgfkjsdgfkjsdgfksjdgfksjdgfkjsdgfkjsdgfk");
-             continue;
-        }else{
+        
             console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             
         
         
-        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
-       console.log(distance +' spawn function');
-        if (distance<10){
+            var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
+                
+                    console.log(distance +' spawn function');
+        
+                            if (distance<10)
+                            {
+                                    if(playerId == thisPlayerId)
+                                    {
+            
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        console.log(distance +' KMM');
+                                
+                                        socket.broadcast.emit('spawn', {id:thisPlayerId});
+            
+                                        socket.broadcast.emit('requestPosition');
+
+                                        socket.emit('spawn', players[playerId]);
+                                    }
+                            }
+                            
           // console.log(distance);
-            console.log(distance +' KMM');
-socket.broadcast.emit('spawn', {id:thisPlayerId});
-            //socket.emit('spawn', players[playerId]);
-            socket.broadcast.emit('requestPosition');
-    }
+            
         }
-   };
         console.log('INIT : ');
     });
+        
+   
+        
+    
 
 
 
