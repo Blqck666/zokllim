@@ -117,6 +117,7 @@ for(var playerId in players){
     });
 
     socket.on('initloc',function(data){
+        console.log('Tba3thet INIT : /////////////////////////////////////////////////////////////////////');
         data.id = thisPlayerId;
         player.lat = data.x;
         player.lan = data.y;
@@ -144,11 +145,11 @@ for(var playerId in players){
                 if(playerIdd == thisPlayerId)
                     continue;
                 socket.emit('spawn', players[playerIdd]);
-    };
+            };
     }
         }
    };
-        console.log('INIT : ');
+        console.log('INIT Wfet ');
     });
 
 
