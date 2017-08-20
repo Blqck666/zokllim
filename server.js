@@ -117,6 +117,10 @@ for(var playerId in players){
         player.lat = data.x;
         player.lan = data.y;
         
+        socket.broadcast.emit('spawn', {id:thisPlayerId});
+            
+        socket.broadcast.emit('requestPosition');
+
         for(var playerId in players)
         {
             console.log(playerId);
@@ -140,9 +144,7 @@ for(var playerId in players){
                                     {
                                         console.log(distance +' KMM');
                                 
-                                        socket.broadcast.emit('spawn', {id:thisPlayerId});
-            
-                                        socket.broadcast.emit('requestPosition');
+                                        
 
                                         socket.emit('spawn', players[playerId]);
                                     }
