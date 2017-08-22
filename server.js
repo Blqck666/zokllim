@@ -133,7 +133,7 @@ for(var playerId in players){
         
         
         var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
-       console.log(distance +' spawn function');
+       
         if (distance<10){
           // console.log(distance);
             console.log(distance +' KMM');
@@ -141,11 +141,7 @@ for(var playerId in players){
             socket.broadcast.emit('requestPosition');
 
 
-            for(var playerIdd in players){
-                if(playerIdd == thisPlayerId)
-                    continue;
-                socket.emit('spawn', players[playerIdd]);
-            };
+           socket.emit('spawn', players[playerIdd]);
     }
         }
    };
