@@ -141,7 +141,7 @@ for(var playerId in players){
             socket.broadcast.emit('requestPosition');
 
 
-           socket.emit('spawn', players[playerIdd]);
+           socket.emit('spawn', players[playerId]);
     }
         }
    };
