@@ -18,7 +18,7 @@ console.log('3');
 
 
 io.on('connection', function (socket) {
-    
+    var roomDistance;
     var thisPlayerId = shortId.generate();
     var player = {
         sockid:socket.id,
@@ -137,7 +137,7 @@ for(var playerId in players){
         if (distance<10){
           // console.log(distance);
             console.log(distance +' KMM');
-           // socket.broadcast.emit('spawn', {id:thisPlayerId});
+            socket.broadcast.emit('spawn', {id:thisPlayerId});
             //socket.broadcast.emit('requestPosition');
 
              socket.emit('spawn', players[playerId]);
