@@ -37,27 +37,18 @@ io.on('connection', function (socket) {
         name : ""
     };
     players[thisPlayerId] = player;
- 
-
-
- 
-    console.log("client connected, id = ", socket.id);
-        socket.emit('register', {id:thisPlayerId});
-
- /*           socket.broadcast.emit('spawn', {id:thisPlayerId});
+    
+    console.log("client connected, id = ", thisPlayerId);
+   
+    socket.emit('register', {id:thisPlayerId});
+    socket.broadcast.emit('spawn', {id:thisPlayerId});
     socket.broadcast.emit('requestPosition');
-        //socket.broadcast.emit('spawn', {id:thisPlayerId});
-        console.log(players);
-
-     for(var playerId in players){
-        if(playerId == thisPlayerId){
+    
+    for(var playerId in players){
+        if(playerId == thisPlayerId)
             continue;
-        }
-        else{
-            socket.emit('spawn', players[playerId]);
-        }
-        
-    };*/
+        socket.emit('spawn', players[playerId]);
+    };
 
         //hathi tab3eth marra kahw wa9ti player yconnecti
         //lazem kif lplayer yconnecti w yo9res 3la location ya3mel verification w yab3eth spawn ll player jdid
@@ -92,7 +83,7 @@ io.on('connection', function (socket) {
         
         delete data.d;
 
-for(var playerId in players){
+/*for(var playerId in players){
         if(playerId == thisPlayerId){
              continue;
         }
@@ -104,9 +95,9 @@ for(var playerId in players){
               //  console.log(distance +' MOVE function');
                     socket.broadcast.emit('move', data);
              }
-        };
+        };*/
 
-        
+        socket.broadcast.emit('move', data);
 
         
         //var distance =  distanceInKmBetweenEarthCoordinates(player.lat,player.lan,0,0);
@@ -122,31 +113,7 @@ for(var playerId in players){
         player.lat = data.x;
         player.lan = data.y;
         
-        socket.broadcast.emit('spawn', {id:thisPlayerId});
-
-        for(var playerId in players){
-            console.log(playerId);
-        if(playerId == thisPlayerId){
-            console.log("sdighsdkghskdjgskdjfgksdjgfkjsdgfkjsdgfksjdgfksjdgfkjsdgfkjsdgfk");
-             continue;
-        }else{
-            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            
-        
-        
-        var distance = distanceInKmBetweenEarthCoordinates(players[thisPlayerId].lat,players[thisPlayerId].lan,players[playerId].lat,players[playerId].lan);
        
-        if (distance<10){
-          // console.log(distance);
-            console.log(distance +' KMM');
-            
-            //socket.broadcast.emit('requestPosition');
-
-             socket.emit('spawn', players[playerId]);
-           
-    }
-        }
-   };
         console.log('INIT Wfet ');
     });
 
