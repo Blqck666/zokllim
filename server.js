@@ -54,37 +54,7 @@ io.on('connection', function (socket) {
         //lazem kif lplayer yconnecti w yo9res 3la location ya3mel verification w yab3eth spawn ll player jdid
         //hathi lazem twali automatique y7el lapp yestana 1 sec yconnecti m3aha location
    
-    socket.on('login', function(data)
-    {
-        console.log(data.id);
-            MongoClient.connect('mongodb://pokemap:fucksatan001@ds032887.mlab.com:32887/pokemap', function(err, db) 
-            {
-                if (err) throw err;
-                    var idd = data.id;
-
-                var myobj = { id: data.id, username: data.name , email: data.email };
-                    db.collection("user").findOne({id:idd}).then(function(doc) 
-                    {
-                        if(!doc)
-                        {
-                                db.collection("user").insertOne(myobj, function(err, res) 
-                                {
-                                        if (err) throw err;
-                                        console.log("1 record inserted");
-                                });  
-                        }
-            
-                        socket.emit('success',doc);
-                        console.log(doc);
-                    });
-            
-                    
-   
-             });
-
-       
-        //socket.broadcast.emit('send',data);
-    });
+    
     
   
     
